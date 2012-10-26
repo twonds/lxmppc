@@ -98,7 +98,7 @@ hex_md5(Data) ->
 get_challenge(Conn, Descr) ->
     Challenge = lxmppc_util:get_stanza(Conn, Descr),
     case Challenge of
-        #xmlelement{name = <<"challenge">>, body=[CData]} ->
+        #xmlelement{name = <<"challenge">>, children=[CData]} ->
             csvkv:parse(base64:decode(exml:unescape_cdata(CData)));
         _ ->
             throw({expected_challenge, got, Challenge})
@@ -129,12 +129,12 @@ auth_stanza(Mechanism, Body) ->
     #xmlelement{name = <<"auth">>,
                 attrs = [{<<"xmlns">>, ?LXMPPC_XMLNS_SASL},
                          {<<"mechanism">>, Mechanism}],
-                body = Body}.
+                children = [Body]}.
 
 response_stanza(Body) ->
     #xmlelement{name = <<"response">>,
                 attrs = [{<<"xmlns">>, ?LXMPPC_XMLNS_SASL}],
-                body = Body}.
+                children = [Body]}.
 
 %%--------------------------------------------------------------------
 %% Helpers - other

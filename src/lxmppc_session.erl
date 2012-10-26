@@ -90,7 +90,7 @@ get_stream_features(Features, Props) ->
 
 get_compression(Features) ->
     case exml_query:subelement(Features, <<"compression">>) of
-        #xmlelement{body = MethodEls} ->
+        #xmlelement{children = MethodEls} ->
             Methods = [ exml_query:cdata(MethodEl) || MethodEl <- MethodEls ];
         _ -> false
     end.

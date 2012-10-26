@@ -45,8 +45,8 @@ compress(Method) ->
                 attrs = [
                     {<<"xmlns">>, <<"http://jabber.org/protocol/compress">>}
                 ],
-                body = [
-                    #xmlelement{name = <<"method">>, body = [exml:escape_cdata(Method)]}
+                children = [
+                    #xmlelement{name = <<"method">>, children = [exml:escape_cdata(Method)]}
                 ]}.
 
 %%--------------------------------------------------------------------
@@ -58,14 +58,14 @@ iq(Type, Body) ->
     #xmlelement{name = <<"iq">>,
                 attrs=[{<<"type">>, Type},
                        {<<"id">>, id()}],
-                body = Body}.
+                children = [Body]}.
 
 -spec bind(binary()) -> #xmlelement{}.
 bind(Resource) ->
     NS = <<"urn:ietf:params:xml:ns:xmpp-bind">>,
     iq(<<"set">>, [
-        #xmlelement{name = <<"bind">>, attrs = [{<<"xmlns">>, NS}], body=[
-            #xmlelement{name = <<"resource">>, body=[exml:escape_cdata(Resource)]}
+        #xmlelement{name = <<"bind">>, attrs = [{<<"xmlns">>, NS}], children = [
+            #xmlelement{name = <<"resource">>, children=[exml:escape_cdata(Resource)]}
         ]}]).
 
 -spec session() -> #xmlelement{}.
